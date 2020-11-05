@@ -4,7 +4,7 @@ import json
 import requests
 
 # url used to get teh code that's used to get OAuth access token
-# zoom.us/oauth/token?response_type=code&client_id=3inmm7aUQ1uy_zyuKMp3w&redirect_uri=http://localhost:8080
+# zoom.us/oauth/token?response_type=code&client_id=FEc1Rq0JTi2MFfHNH94DgA&redirect_uri=http://localhost:8080
 # redirect_uri must be whitelisted when you create the app
 
 # use case: Transcript(meeting_id, access_token).GetTranscript()
@@ -65,12 +65,13 @@ class Transcript():
 
         # Encoding client authorization 
         pair = "{client_key}:{client_secret}".format(client_key=self.client_key, client_secret=self.client_secret)
-        pair = bytes(pair, "utf-8")
-        authorization = base64.b64encode(pair)
+        # pair = bytes(pair, "utf-8")
+        # authorization = base64.b64encode(pair)
+        authorization = base64.b64encode(str(pair).encode("utf-8")).decode("utf-8")
 
         # Getting the access token
         access_token_headers = { "Authorization": "Basic {authorization}".format(authorization=authorization) }
-        request_endpoint = "/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://localhost:8000".format(code=self.code)
+        request_endpoint = "/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://localhost:8080".format(code=self.code)
         self.conn.request("POST", request_endpoint, headers=access_token_headers)
         res = self.conn.getresponse()
         response = json.loads(res.read().decode("utf-8"))
