@@ -4,7 +4,7 @@ import get_transcript as gt
 spongebob = gt.Transcript(meeting_id=98352037195,
                           client_key="FEc1Rq0JTi2MFfHNH94DgA",
                           client_secret="WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ",
-                          code="L6ijWXq8dH_wcT7DtCgTKKr-HDFlXouZA")
+                          code="4evXGbJlwR_wcT7DtCgTKKr-HDFlXouZA")
 
 #spongebob._GetAccessToken()
 
