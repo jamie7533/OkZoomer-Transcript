@@ -3,9 +3,9 @@ import http.client
 import json
 import requests
 
-# url used to get teh code that's used to get OAuth access token
+# url used to get the code that's used to get OAuth access token
 # zoom.us/oauth/token?response_type=code&client_id=FEc1Rq0JTi2MFfHNH94DgA&redirect_uri=http://localhost:8080
-# redirect_uri must be whitelisted when you create the app
+# redirect_url must be whitelisted when you create the app
 
 # use case: Transcript(meeting_id, access_token).GetTranscript()
 #   or Transcript(meeting_id, client_key, client_secret, code).GetTranscript()
@@ -18,7 +18,7 @@ class Transcript():
         Args: 
             client_key (string): Key of api token.
             client_secret (string): Secret of api token.
-            code (string): Code cretated when directed to OAuth URL.
+            code (string): Code created when directed to OAuth URL.
             meeting_id (integer): ID of the meeting you need the transcript for.
         """
         self.meeting_id = meeting_id
@@ -27,7 +27,6 @@ class Transcript():
         self.code = code
         self.access_token = access_token
         self.conn = None
-        # self.conn = http.client.HTTPSConnection("zoom.us")
     
     def GetTranscript(self):
         """Gets the transcript using the paramters the instance has access to."""
@@ -65,8 +64,7 @@ class Transcript():
 
         # Encoding client authorization 
         pair = "{client_key}:{client_secret}".format(client_key=self.client_key, client_secret=self.client_secret)
-        # pair = bytes(pair, "utf-8")
-        # authorization = base64.b64encode(pair)
+        # authorization = base64.b64encode(pair) -- python2
         authorization = base64.b64encode(str(pair).encode("utf-8")).decode("utf-8")
 
         # Getting the access token
@@ -78,7 +76,6 @@ class Transcript():
 
         try:
             return response["access_token"]
-            # self.access_token = response["access_token"]
         except KeyError:
             print("Request for access token failed for the following reason: {reason}".format(reason=response["reason"]))
     
@@ -91,11 +88,13 @@ class Transcript():
             'content-type': "application/json"
         }
         # Get a list of all meetings
+        # for some reason, only getting meetings from the past month?
         try:
             request_endpoint = "/v2/users/me/recordings?from=2000-01-01"
             self.conn.request("GET", request_endpoint, headers=get_meeting_headers)
             res = self.conn.getresponse()
             data = res.read().decode("utf-8")
+            print(response) ##
             response = json.loads(data)
         except:
             print("Bad Response to access recordings.")
