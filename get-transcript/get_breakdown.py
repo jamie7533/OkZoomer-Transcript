@@ -61,6 +61,7 @@ def getBreakdown(vtt):
         print(i[0]," talked for ", i[1], " seconds")
         #print(caption.start)  # start timestamp in text format
         #print(caption.end)  # end timestamp in text format
-        #print(caption.text) # caption text
+        #print(caption.text) # caption texk
+    return breakdowns
 
 print(getBreakdown("Example Transcript.vtt"))

@@ -4,13 +4,14 @@ import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
+import get_breakdown as gb
 
 #information for report
 numpersons = 4
 names = ["Jamie", "Tony", "Nick", "Claudia"]
 stringnames = ', '.join(names)
-#percentages = [25, 25, 30, 20]
-percentages = [10, 40, 25, 25]
+percentages = [25, 25, 30, 20]
+#percentages = [10, 40, 25, 25]
 meetingid = "6102983"
 meetingdate = "20/10/2020"
 meetingtime = "5:30pm"
@@ -18,8 +19,9 @@ meetingtime = "5:30pm"
 #analyzing times
 generalremark = "Well done! Everyone spoke equally during this meeting. Keep it up!"
 remarkcolor="#19B953"
+idealtime = 100/numpersons
 for i in percentages:
-    if i < 20 or i > 30:
+    if i < idealtime - 5 or i > idealtime + 5:
         generalremark = "Next time, make sure everyone gets to contribute equally to the conversation! \n Please review the chart to see how you can improve in the next meeting."
         remarkcolor = "#E37100"
 
@@ -39,7 +41,7 @@ message["To"] = receiver_email
 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
 labels = names
 sizes = percentages
-explode = (0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
 
 fig1, ax1 = plt.subplots()
 ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
