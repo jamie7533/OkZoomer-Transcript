@@ -94,8 +94,8 @@ class Transcript():
             self.conn.request("GET", request_endpoint, headers=get_meeting_headers)
             res = self.conn.getresponse()
             data = res.read().decode("utf-8")
-            print(response) ##
             response = json.loads(data)
+            print(response)  ##
         except:
             print("Bad Response to access recordings.")
             print(data)

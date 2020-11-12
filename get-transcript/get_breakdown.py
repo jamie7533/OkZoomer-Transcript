@@ -63,4 +63,6 @@ def getBreakdown(vtt):
         #print(caption.end)  # end timestamp in text format
         #print(caption.text) # caption text
 
-print(getBreakdown("Example Transcript.vtt"))
+# print(getBreakdown("Example Transcript.vtt"))
+# getBreakdown("94923151321_audio_transcript_first-try.vtt")
+# getBreakdown("94923151321_audio_transcript.vtt")
