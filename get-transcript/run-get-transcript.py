@@ -15,7 +15,7 @@ import get_transcript as gt
 spongebob = gt.Transcript(meeting_id=94923151321, # J's 11/10 meeting
                           client_key="FEc1Rq0JTi2MFfHNH94DgA",
                           client_secret="WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ",
-                          code="bjc928tYW5_wcT7DtCgTKKr-HDFlXouZA") # update before each run
+                          code="bd0Wey4dh8_wcT7DtCgTKKr-HDFlXouZA") # update before each run
 
 spongebob.GetTranscript()
 

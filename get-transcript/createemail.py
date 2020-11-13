@@ -8,12 +8,22 @@ import get_breakdown as gb
 
 #information for report
 numpersons = 4
-names = ["Jamie", "Tony", "Nick", "Claudia"]
+# names = ["Jamie", "Tony", "Nick", "Claudia"]
+breakdowns = gb.getBreakdown("94923151321_audio_transcript.vtt")
+total_seconds = 0
+seconds = []
+names = []
+for b in breakdowns:
+    total_seconds += b[1]
+    names.append(b[0])
+    seconds.append(b[1])
+
+percentages = [int(s / total_seconds * 100) for s in seconds]
 stringnames = ', '.join(names)
-percentages = [25, 25, 30, 20]
+# percentages = [25, 25, 30, 20]
 #percentages = [10, 40, 25, 25]
-meetingid = "6102983"
-meetingdate = "20/10/2020"
+meetingid = "94923151321"
+meetingdate = "11/10/2020"
 meetingtime = "5:30pm"
 
 #analyzing times

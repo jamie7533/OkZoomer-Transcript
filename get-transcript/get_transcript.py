@@ -88,14 +88,15 @@ class Transcript():
             'content-type': "application/json"
         }
         # Get a list of all meetings
-        # for some reason, only getting meetings from the past month?
+        # for some reason, only getting meetings from the past month? (update: max range = 1 month!)
         try:
-            request_endpoint = "/v2/users/me/recordings?from=2000-01-01"
+            # request_endpoint = "/v2/users/me/recordings?from=2000-01-01" --> Dave's version
+            request_endpoint = "/v2/users/me/recordings?from=2020-11-06&to=2020-11-11" # specify date range
             self.conn.request("GET", request_endpoint, headers=get_meeting_headers)
             res = self.conn.getresponse()
             data = res.read().decode("utf-8")
             response = json.loads(data)
-            print(response)  ##
+            print(response)  ## print statement to check date range
         except:
             print("Bad Response to access recordings.")
             print(data)
