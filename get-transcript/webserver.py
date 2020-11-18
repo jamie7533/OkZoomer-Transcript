@@ -64,4 +64,4 @@ def serve_transcript(meeting_id, client_key, client_secret):
     wb.get(edge_path).open(url)
 
 
-serve_transcript(94923151321, "FEc1Rq0JTi2MFfHNH94DgA", "WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ")
+# serve_transcript(94923151321, "FEc1Rq0JTi2MFfHNH94DgA", "WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ")

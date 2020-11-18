@@ -5,11 +5,16 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import get_breakdown as gb
+import webserver as wb
 
 #information for report
 
 # names = ["Jamie", "Tony", "Nick", "Claudia"]
-breakdowns = gb.getBreakdown("94923151321_audio_transcript_first-try.vtt")
+meeting_id = int(input("Type your meeting ID and press Enter: "))
+wb.serve_transcript(meeting_id, client_key="FEc1Rq0JTi2MFfHNH94DgA", client_secret="WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ")
+while not os.path.exists("{0}_audio_transcript.vtt".format(meeting_id)):
+    pass
+breakdowns = gb.getBreakdown("{0}_audio_transcript.vtt".format(meeting_id))
 total_seconds = 0
 seconds = []
 names = []
@@ -19,13 +24,14 @@ for b in breakdowns:
     seconds.append(b[1])
 numpersons = len(names)
 
+meeting_id = str(meeting_id)
+
 
 
 percentages = [int(s / total_seconds * 100) for s in seconds]
 stringnames = ', '.join(names)
 # percentages = [25, 25, 30, 20]
 #percentages = [10, 40, 25, 25]
-meetingid = "94923151321"
 meetingdate = "11/10/2020"
 meetingtime = "5:30pm"
 
@@ -85,7 +91,7 @@ html = """\
   
 
 </html>
-""".format(meetingid, meetingdate, meetingtime, stringnames, generalremark, remarkcolor)
+""".format(meeting_id, meetingdate, meetingtime, stringnames, generalremark, remarkcolor)
 
 
 
