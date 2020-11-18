@@ -7,9 +7,9 @@ from email.mime.image import MIMEImage
 import get_breakdown as gb
 
 #information for report
-numpersons = 4
+
 # names = ["Jamie", "Tony", "Nick", "Claudia"]
-breakdowns = gb.getBreakdown("94923151321_audio_transcript.vtt")
+breakdowns = gb.getBreakdown("94923151321_audio_transcript_first-try.vtt")
 total_seconds = 0
 seconds = []
 names = []
@@ -17,6 +17,9 @@ for b in breakdowns:
     total_seconds += b[1]
     names.append(b[0])
     seconds.append(b[1])
+numpersons = len(names)
+
+
 
 percentages = [int(s / total_seconds * 100) for s in seconds]
 stringnames = ', '.join(names)
@@ -38,7 +41,7 @@ for i in percentages:
 
 #email set up
 sender_email = "okzoomerteam@gmail.com"
-receiver_email = "okzoomerteam@gmail.com"
+receiver_email = input("Type your email and press enter:")
 password = "Evanston1" #input("Type your password and press enter:")
 
 message = MIMEMultipart()
@@ -51,7 +54,7 @@ message["To"] = receiver_email
 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
 labels = names
 sizes = percentages
-explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+explode = [0 for i in range(numpersons)] # only "explode" the 2nd slice (i.e. 'Hogs')
 
 fig1, ax1 = plt.subplots()
 ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
