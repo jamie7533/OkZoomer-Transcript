@@ -1,5 +1,7 @@
 import webvtt
 from datetime import datetime
+from monkeylearn import MonkeyLearn
+
 
 # Cycles through .vtt file using WebVtt and adds up seconds spoken
 # per person in the meeting
@@ -44,6 +46,15 @@ def roundit(array):
     return array
 
 # This is the big function that cycles thorugh the vtt file
+
+def getVibe(data: list):
+    ml = MonkeyLearn('e91f245f8c4d03166c8d110036df89f9fa58d055')
+    model_id = 'cl_pi3C7JiL'
+    result = ml.classifiers.classify(model_id, data)
+    vibe = result.body[0].get('classifications')[0].get('tag_name')
+    confidence = result.body[0].get('classifications')[0].get('confidence')
+
+    return (vibe, confidence)
 
 def getBreakdown(vtt):
     breakdowns = []
