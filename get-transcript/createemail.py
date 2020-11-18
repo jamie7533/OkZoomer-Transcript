@@ -18,15 +18,30 @@ breakdowns = gb.getBreakdown("{0}_audio_transcript.vtt".format(meeting_id))
 total_seconds = 0
 seconds = []
 names = []
+positive = "Positive: "
+negative = "Negative: "
 for b in breakdowns:
     total_seconds += b[1]
     names.append(b[0])
     seconds.append(b[1])
+    if b[2]== 'Positive':
+        positive = positive + " " + b[0] + ","
+    elif b[2]== 'Negative':
+        negative = negative + " " + b[0] + ","
+    
 numpersons = len(names)
-
 meeting_id = str(meeting_id)
 
+if positive == "Positive: ":
+    positive = ""
+else:
+    positive = positive[0:len(positive)-1]
+if negative == "Negative: ":
+    negative = ""
+else:
+    negative = negative[0:len(negative)-1]
 
+sentiment = "Using Sentiment Analysis Powered by MonkeyLearn we noticed the following people stood out:"
 
 percentages = [int(s / total_seconds * 100) for s in seconds]
 stringnames = ', '.join(names)
@@ -83,6 +98,9 @@ html = """\
     <span style="color:#A53FD2;">{1}</span> at <span style="color:#A53FD2;">{2}</span> </h2>
     <h3 style="text-align: center;"> Meeting attendees: <span style="color:#12A5D5"> {3} </span></h3>
     <h3 style ="color:{5}; text-align: center;"> {4} </h3>
+    <h3 style ="color:#17B50E; text-align: center;"> {6} </h3>
+    <h3 style ="color:#17B50E; text-align: center;"> {7} </h3>
+    <h3 style ="color:#17B50E; text-align: center;"> {8} </h3>
     <img src="piechart.png"></img>
 
     <head>
@@ -91,7 +109,7 @@ html = """\
   
 
 </html>
-""".format(meeting_id, meetingdate, meetingtime, stringnames, generalremark, remarkcolor)
+""".format(meeting_id, meetingdate, meetingtime, stringnames, generalremark, remarkcolor, sentiment, positive, negative)
 
 
 

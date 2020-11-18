@@ -15,6 +15,15 @@ def getName(text):
         return "NO NAME FOUND"
     return text[0:index]
 
+def getText(text):
+    index = text.find(':')
+    nextIndex = text.find(':',index+1)
+    if nextIndex != -1:
+        index = nextIndex
+    if index == -1:
+        return text
+    return text[index+1:]
+
 def searchName(name, array):
     if array == []:
         return False
@@ -45,7 +54,10 @@ def roundit(array):
         array[index][1] = round(value[1])
     return array
 
-# This is the big function that cycles thorugh the vtt file
+def getSentiment(breakdowns):
+    for index, value in enumerate(breakdowns):
+        breakdowns[index][2] = getVibe([value[2]])
+    return breakdowns
 
 def getVibe(data: list):
     ml = MonkeyLearn('e91f245f8c4d03166c8d110036df89f9fa58d055')
@@ -53,28 +65,36 @@ def getVibe(data: list):
     result = ml.classifiers.classify(model_id, data)
     vibe = result.body[0].get('classifications')[0].get('tag_name')
     confidence = result.body[0].get('classifications')[0].get('confidence')
+    if confidence>=0.8:
+        return vibe
+    else:
+        return 'Neutral'
 
-    return (vibe, confidence)
-
+# This is the big function that cycles thorugh the vtt file
 def getBreakdown(vtt):
     breakdowns = []
     for caption in webvtt.read(vtt):
         name = getName(caption.text)
         if name == "NO NAME FOUND":
-            l=1
+            pass
         elif searchName(name,breakdowns):
             index = findName(name, breakdowns)
             breakdowns[index][1] = breakdowns[index][1] + timeDiff(caption.start, caption.end)
+            breakdowns[index][2] = breakdowns[index][2] + " " + getText(caption.text)
         else:
-            breakdowns.append([name,timeDiff(caption.start, caption.end)])
-    breakdowns =roundit(breakdowns)
+            breakdowns.append([name,timeDiff(caption.start, caption.end), getText(caption.text)])
+    breakdowns = roundit(breakdowns)
+    breakdowns = getSentiment(breakdowns)
     for i in breakdowns:
         print(i[0]," talked for ", i[1], " seconds")
+        print("Sentiment: ")
+        print(i[2])
+
         #print(caption.start)  # start timestamp in text format
         #print(caption.end)  # end timestamp in text format
         #print(caption.text) # caption texk
     return breakdowns
 
-# print(getBreakdown("Example Transcript.vtt"))
+#getBreakdown("Example Transcript.vtt")
 # getBreakdown("94923151321_audio_transcript_first-try.vtt")
 # getBreakdown("94923151321_audio_transcript.vtt")
