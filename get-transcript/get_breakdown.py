@@ -56,6 +56,7 @@ def roundit(array):
 
 def getSentiment(breakdowns):
     for index, value in enumerate(breakdowns):
+        print(value[0])
         breakdowns[index][2] = getVibe([value[2]])
     return breakdowns
 
@@ -65,7 +66,7 @@ def getVibe(data: list):
     result = ml.classifiers.classify(model_id, data)
     vibe = result.body[0].get('classifications')[0].get('tag_name')
     confidence = result.body[0].get('classifications')[0].get('confidence')
-    if confidence>=0.8:
+    if confidence>=0.3:
         return vibe
     else:
         return 'Neutral'
