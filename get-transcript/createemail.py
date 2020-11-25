@@ -12,11 +12,17 @@ import webserver as wb
 # names = ["Jamie", "Tony", "Nick", "Claudia"]
 def email(id, email):
     #meeting_id = int(input("Type your meeting ID and press Enter: "))
-    meeting_id = id
+    meeting_id = int(id)
     wb.serve_transcript(meeting_id, client_key="FEc1Rq0JTi2MFfHNH94DgA", client_secret="WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ")
+
     while not os.path.exists("{0}_audio_transcript.vtt".format(meeting_id)):
         pass
     breakdowns = gb.getBreakdown("{0}_audio_transcript.vtt".format(meeting_id))
+    time_file = open("{0}_times.txt".format(meeting_id))
+    time_file_reader = time_file.readlines()
+    meetingdate = time_file_reader[0]
+    meetingtime = time_file_reader[1]
+
     total_seconds = 0
     seconds = []
     names = []
@@ -49,8 +55,8 @@ def email(id, email):
     stringnames = ', '.join(names)
     # percentages = [25, 25, 30, 20]
     #percentages = [10, 40, 25, 25]
-    meetingdate = "11/18/2020"
-    meetingtime = "5:42pm"
+    #meetingdate = "11/18/2020"
+    #meetingtime = "5:42pm"
 
     #analyzing times
     generalremark = "Well done! Everyone spoke equally during this meeting. Keep it up!"
