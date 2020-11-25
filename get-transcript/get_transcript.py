@@ -27,6 +27,9 @@ class Transcript():
         self.code = code
         self.access_token = access_token
         self.conn = None
+
+        self.start_date = None
+        self.start_time = None
     
     def GetTranscript(self):
         """Gets the transcript using the paramters the instance has access to."""
@@ -57,6 +60,9 @@ class Transcript():
             open("{meeting_id}_audio_transcript.vtt".format(meeting_id=self.meeting_id), 'wb').write(transcript.content)
             got_file = True
 
+        f = open("{meeting_id}_times.txt".format(meeting_id=self.meeting_id), "w+")
+        f.write("{0} \n".format(self.start_date))
+        f.write("{0}GMT \n".format(self.start_time))
         return got_file
 
     def _GetAccessToken(self):
@@ -91,7 +97,7 @@ class Transcript():
         # for some reason, only getting meetings from the past month? (update: max range = 1 month!)
         try:
             # request_endpoint = "/v2/users/me/recordings?from=2000-01-01" --> Dave's version
-            request_endpoint = "/v2/users/me/recordings?from=2020-11-06&to=2020-11-11" # specify date range
+            request_endpoint = "/v2/users/me/recordings?from=2020-11-22&to=2020-11-24" # specify date range
             self.conn.request("GET", request_endpoint, headers=get_meeting_headers)
             res = self.conn.getresponse()
             data = res.read().decode("utf-8")
@@ -109,7 +115,10 @@ class Transcript():
             for recording_file in meeting["recording_files"]:
                 if "recording_type" not in recording_file:
                     continue
-                if recording_file["file_type"] == "TRANSCRIPT": 
+                if recording_file["file_type"] == "TRANSCRIPT":
+                    time = meeting["start_time"]
+                    self.start_date = time[0:10]
+                    self.start_time = time[11:16]
                     download_url = "{endpoint}?access_token={access_token}".format(endpoint=str(recording_file["download_url"]), access_token=self.access_token)
         return download_url
 
