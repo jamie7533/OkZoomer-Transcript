@@ -61,7 +61,7 @@ def getSentiment(breakdowns):
     return breakdowns
 
 def getVibe(data: list):
-    ml = MonkeyLearn('e91f245f8c4d03166c8d110036df89f9fa58d055')
+    ml = MonkeyLearn('8c2577ec1c3e63771337b22667d9d1c6f36c7675')
     model_id = 'cl_pi3C7JiL'
     result = ml.classifiers.classify(model_id, data)
     vibe = result.body[0].get('classifications')[0].get('tag_name')
