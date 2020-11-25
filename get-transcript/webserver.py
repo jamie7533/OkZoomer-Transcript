@@ -22,7 +22,9 @@ class echoHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(self.path.encode())
+        # self.wfile.write(self.path.encode())
+        self.wfile.write(bytes("<html><head><body>Code processed. Close this tab to return to OkZoomer</body></head>",
+                               "utf-8"))
         query_components = parse_qs(urlparse(self.path).query)
         if 'code' in query_components and spongebob.code is None:
             spongebob.code = query_components['code'][0]

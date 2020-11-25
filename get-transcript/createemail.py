@@ -94,10 +94,10 @@ def email(id, email):
     
     plt.title("Participant's Speaking Times")
 
-    plt.savefig('piechart.png', bbox_inches='tight')
+    plt.savefig('static/piechart.png', bbox_inches='tight')
  
     #attaching image
-    img_data = open("piechart.png", 'rb').read()
+    img_data = open("static/piechart.png", 'rb').read()
     image = MIMEImage(img_data, name=os.path.basename("piechart.png"))
     message.attach(image)
 
