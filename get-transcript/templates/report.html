@@ -1,10 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+<link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' 
+ rel='stylesheet' type='text/css'>
+<style>    
+
+#roundedbigbox {
+    border-radius: 25px;
+    background: white;
+    padding: 30px;
+    width: 750px;
+    height: 810px; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom:30px;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+
+}
+h1{
+    font-family: 'Montserrat';
+    font-weight: bolder;
+    padding-top: 10px;
+}
+
+h2{
+    font-family: 'Helvetica';
+    font-size: 20px;
+    padding-top: 20px
+}
+
+h3{
+    font-family: 'Helvetica';
+    font-size: 20px;
+}
+
+h4{
+    font-family: 'Helvetica';
+    font-size: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+</style>
+
 <head>
     <meta charset="UTF-8">
     <title>OKZoomer</title>
 </head>
-<body>
-   <h1>REPORT</h1>
+<body id=roundedbigbox style="padding-top: 20px">
+   <h1 style="text-align: center; font-family:'Montserrat'">Your Meeting Summary</h1>
+   <h2 style ="text-align: center;">For meeting <span style="color:#A53FD2; text-align: center;">94923151321</span> on 
+   <span style="color:#A53FD2;">2020-11-23</span> at <span style="color:#A53FD2;">22:30</span> </h2>
+   <h3 style="text-align: center;"> Meeting attendees: <span style="color:#12A5D5"> Tony Bayvas, Jamie Lee, Nick Gulson, Claudia Gabison </span></h3>
+
+   <h4 style ="color:black; text-align: center; padding-top: 10px"> Using Sentiment Analysis powered by MonkeyLearn we noticed the following people stood out: </h3>
+   <h4 style ="color:#17B50E; text-align: center;"> Positive: Nick Gulson, Claudia Gabison </h3>
+   <h4 style ="color:#E37100; text-align: center;"> Negative: Tony Bayvas, Jamie Lee </h3>
+    <h4 style ="color:#E37100; text-align: center; padding-top: 10px"> Next time, make sure everyone gets to contribute equally to the conversation!<br>Please review the chart to see how you can improve in the next meeting. </h4>
+   <img src="{{url_for('static', filename='piechart.png')}}" alt="piechart">
 </body>
 </html>

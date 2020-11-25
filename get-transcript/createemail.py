@@ -12,7 +12,7 @@ import webserver as wb
 # names = ["Jamie", "Tony", "Nick", "Claudia"]
 def email(id, email):
     #meeting_id = int(input("Type your meeting ID and press Enter: "))
-    meeting_id = id
+    meeting_id = int(id)
     wb.serve_transcript(meeting_id, client_key="FEc1Rq0JTi2MFfHNH94DgA", client_secret="WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ")
     while not os.path.exists("{0}_audio_transcript.vtt".format(meeting_id)):
         pass
@@ -85,6 +85,8 @@ def email(id, email):
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    
+    plt.title("Participant's Speaking Times")
 
     plt.savefig('piechart.png', bbox_inches='tight')
  
