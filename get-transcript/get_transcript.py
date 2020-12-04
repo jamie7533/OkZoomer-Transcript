@@ -102,7 +102,7 @@ class Transcript():
             res = self.conn.getresponse()
             data = res.read().decode("utf-8")
             response = json.loads(data)
-            print(response)  ## print statement to check date range
+            # print(response)  ## print statement to check date range
         except:
             print("Bad Response to access recordings.")
             print(data)

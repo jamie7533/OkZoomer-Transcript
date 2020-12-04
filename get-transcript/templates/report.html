@@ -9,33 +9,31 @@
     background: white;
     padding: 30px;
     width: 750px;
-    height: 810px; 
+    height: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-align: center;
     margin: auto;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 3%;
+    margin-top: auto;
+    margin-bottom: auto;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     padding-top: 20px;
+    padding-bottom: 20px;
     padding-left: 40px;
     padding-right: 40px;
 
 }
 h1{
-    font-family: 'Montserrat';
-    font-weight: bolder;
-    padding-top: 10px;
+    font-family: 'Helvetica';
+    font-size: 40px;
 }
 
 h2{
     font-family: 'Helvetica';
     font-size: 20px;
-    padding-top: 20px
 }
 
 h3{
@@ -45,9 +43,7 @@ h3{
 
 h4{
     font-family: 'Helvetica';
-    font-size: 18px;
-    padding-left: 20px;
-    padding-right: 20px;
+    font-size: 16px;
 }
 </style>
 
@@ -56,15 +52,28 @@ h4{
     <title>OKZoomer</title>
 </head>
 <body id=roundedbigbox style="padding-top: 20px">
-   <h1 style="text-align: center; font-family:'Montserrat'">Your Meeting Summary</h1>
-   <h2 style ="text-align: center;">For meeting <span style="color:#A53FD2; text-align: center;">94923151321</span> on 
-   <span style="color:#A53FD2;">2020-11-23</span> at <span style="color:#A53FD2;">22:30</span> </h2>
-   <h3 style="text-align: center;"> Meeting attendees: <span style="color:#12A5D5"> Tony Bayvas, Jamie Lee, Nick Gulson, Claudia Gabison </span></h3>
-
-   <h4 style ="color:black; text-align: center; padding-top: 10px"> Using Sentiment Analysis powered by MonkeyLearn we noticed the following people stood out: </h3>
-   <h4 style ="color:#17B50E; text-align: center;"> Positive: Nick Gulson, Claudia Gabison </h3>
-   <h4 style ="color:#E37100; text-align: center;"> Negative: Tony Bayvas, Jamie Lee </h3>
-    <h4 style ="color:#E37100; text-align: center; padding-top: 10px"> Next time, make sure everyone gets to contribute equally to the conversation!<br>Please review the chart to see how you can improve in the next meeting. </h4>
-   <img src="{{url_for('static', filename='piechart.png')}}" style="width:65%" alt="piechart">
+   <h1 style="text-align: center">Your Meeting Summary</h1>
+   <hr>
+   <h2 style ="text-align: left;">For meeting <span style="color:#A53FD2; font-weight: normal">94923151321</span> on
+   <span style="color:#A53FD2; font-weight: normal">2020-11-23</span> at <span style="color:#A53FD2;font-weight: normal">
+         22:30GMT</span> </h2>
+   <h2 style="text-align: left;"> Attendees: <span style="color:black; font-weight: normal">
+      Tony Bayvas, Jamie Lee, Nick Gulson, Claudia Gabison </span></h2>
+   <hr>
+   <h2 style ="color:black; text-align: left"> Using Sentiment Analysis we noticed the following people stood out: </h2>
+   <h4 style ="color:#17B50E; text-align: left; padding-left: 40px;"> Positive: <span style="font-weight: normal">
+      Nick Gulson, Claudia Gabison </span> </h4>
+   <h4 style ="color:#E37100; text-align: left; padding-left: 40px;"> Negative: <span style="font-weight: normal">
+      Tony Bayvas, Jamie Lee </span> </h4>
+   <hr>
+   <h2 style ="color:black; text-align: left"> Speaking Times: </h2>
+   <div>
+   <h4 style="float: left;">
+   <img src="{{url_for('static', filename='piechart.png')}}" width="60%"></h4>
+   <h4 style ="color:black; text-align: left; font-weight: normal">
+         Next time, make sure everyone contributes equally to the conversation!<br>
+         It looks like <span style="color:#E37100">Tony</span> did not get to talk as much. <br><br>
+         Please review the chart to see how you can improve in the next meeting.</h4>
+   </div>
 </body>
 </html>

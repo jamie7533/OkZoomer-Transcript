@@ -49,7 +49,7 @@ def email(id, email):
     else:
         negative = negative[0:len(negative)-1]
 
-    sentiment = "Using Sentiment Analysis Powered by MonkeyLearn we noticed the following people stood out:"
+    sentiment = "Using Sentiment Analysis we noticed the following people stood out:"
 
     percentages = [int(s / total_seconds * 100) for s in seconds]
     stringnames = ', '.join(names)
@@ -62,10 +62,17 @@ def email(id, email):
     generalremark = "Well done! Everyone spoke equally during this meeting. Keep it up!"
     remarkcolor="#19B953"
     idealtime = 100/numpersons
-    for i in percentages:
-        if i < idealtime - 5 or i > idealtime + 5:
-            generalremark = "Next time, make sure everyone gets to contribute equally to the conversation! \n Please review the chart to see how you can improve in the next meeting."
+    for i, v in enumerate(percentages):
+        if v < idealtime - 5 or v > idealtime + 5:
             remarkcolor = "#E37100"
+            if v < idealtime - 5:
+                generalremark = "Next time, make sure everyone gets to contribute equally to the conversation! <br>" \
+                                "It looks like {quiet_person} did not get to talk as much. <br><br>" \
+                                " Please review the chart to see how you can improve in the next meeting.".format(quiet_person=names[i])
+                break
+            else:
+                generalremark = "Next time, make sure everyone gets to contribute equally to the conversation! <br><br>" \
+                                " Please review the chart to see how you can improve in the next meeting."
 
 
     #email set up
@@ -92,7 +99,7 @@ def email(id, email):
             shadow=True, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     
-    plt.title("Participant's Speaking Times")
+    plt.title("Participant Speaking Times")
 
     plt.savefig('static/piechart.png', bbox_inches='tight')
  
@@ -103,21 +110,41 @@ def email(id, email):
 
 
     # Create the plain-text and HTML version of your message
-    html = """\
+    html2 = """\
     <html>
         <h1 style="text-align: center;">Your Meeting Summary</h1>
         <h2 style ="text-align: center;">For meeting <span style="color:#A53FD2; text-align: center;">{0}</span> on 
         <span style="color:#A53FD2;">{1}</span> at <span style="color:#A53FD2;">{2}</span> </h2>
-        <h3 style="text-align: center;"> Meeting attendees: <span style="color:#12A5D5"> {3} </span></h3>
-        <h3 style ="color:{5}; text-align: center;"> {4} </h3>
-        <h3 style ="color:#17B50E; text-align: center;"> {6} </h3>
+        <h3 style="text-align: center; font-weight: normal"> Meeting attendees: <span style="color:black"> {3} </span></h3>
+        <h3 style ="color:black; text-align: center;"> {6} </h3>
         <h3 style ="color:#17B50E; text-align: center;"> {7} </h3>
-        <h3 style ="color:#17B50E; text-align: center;"> {8} </h3>
+        <h3 style ="color:#E37100; text-align: center;"> {8} </h3>
+        <h3 style ="color:black; text-align: center; padding-top: 10px"> Next time, make sure everyone contributes 
+        equally to the conversation! It looks like Tony did not get to talk as much. <br>
+        Please review the chart to see how you can improve in the next meeting. </h3>
         <img src="piechart.png"></img>
 
         <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+        <meta name="viewport" content="width=device-width, initial-scale=1"> """
+
+    html = """\
+    <html>    
+       <h1 style="text-align: center">Your Meeting Summary</h1>
+       <hr>
+       <h2 style ="text-align: left;">For meeting <span style="color:#A53FD2; font-weight: normal">{0}</span> on
+       <span style="color:#A53FD2; font-weight: normal">{1}</span> at <span style="color:#A53FD2;font-weight: normal">
+             {2}</span> </h2>
+       <h2 style="text-align: left;"> Attendees: <span style="color:black; font-weight: normal">
+          {3} </span></h2>
+       <hr>
+       <h2 style ="color:black; text-align: left"> {6} </h2>
+       <h3 style ="color:#17B50E; text-align: left; padding-left: 40px;"> Positive: <span style="font-weight: normal">
+          Nick Gulson, Claudia Gabison </span> </h3>
+       <h3 style ="color:#E37100; text-align: left; padding-left: 40px;"> Negative: <span style="font-weight: normal">
+          Tony Bayvas, Jamie Lee </span> </h3>
+       <hr>
+       <h2 style ="color:black; text-align: left"> Speaking Times: </h2>
+       <h3 style ="color:black; text-align: left; font-weight: normal; padding-left: 40px;"> {4}</h3>
     
 
     </html>
