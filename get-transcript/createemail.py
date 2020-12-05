@@ -7,11 +7,8 @@ from email.mime.image import MIMEImage
 import get_breakdown as gb
 import webserver as wb
 
-#information for report
 
-# names = ["Jamie", "Tony", "Nick", "Claudia"]
 def email(id, email):
-    #meeting_id = int(input("Type your meeting ID and press Enter: "))
     meeting_id = int(id)
     wb.serve_transcript(meeting_id, client_key="FEc1Rq0JTi2MFfHNH94DgA", client_secret="WECczlqk1PZLmmwzt1c1n43hcmw7lHDJ")
 
@@ -53,12 +50,8 @@ def email(id, email):
 
     percentages = [int(s / total_seconds * 100) for s in seconds]
     stringnames = ', '.join(names)
-    # percentages = [25, 25, 30, 20]
-    #percentages = [10, 40, 25, 25]
-    #meetingdate = "11/18/2020"
-    #meetingtime = "5:42pm"
 
-    #analyzing times
+    # analyzing times
     generalremark = "Well done! Everyone spoke equally during this meeting. Keep it up!"
     remarkcolor="#19B953"
     idealtime = 100/numpersons
@@ -75,24 +68,23 @@ def email(id, email):
                                 " Please review the chart to see how you can improve in the next meeting."
 
 
-    #email set up
+    # email set up
     sender_email = "okzoomerteam@gmail.com"
-    #receiver_email = input("Type your email and press enter:")
+    # receiver_email = input("Type your email and press enter:")
     receiver_email = email
-    password = "Evanston1" #input("Type your password and press enter:")
+    password = "Evanston1"  # input("Type your password and press enter:")
 
     message = MIMEMultipart()
     message["Subject"] = "Summary of Your Meeting"
     message["From"] = sender_email
     message["To"] = receiver_email
 
-
-    #create pie chart
+    # create pie chart
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
     plt.switch_backend('Agg')
     labels = names
     sizes = percentages
-    explode = [0 for i in range(numpersons)] # only "explode" the 2nd slice (i.e. 'Hogs')
+    explode = [0 for i in range(numpersons)]  # only "explode" the 2nd slice (i.e. 'Hogs')
 
     fig1, ax1 = plt.subplots()
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
@@ -103,11 +95,10 @@ def email(id, email):
 
     plt.savefig('static/piechart.png', bbox_inches='tight')
  
-    #attaching image
+    # attaching image
     img_data = open("static/piechart.png", 'rb').read()
     image = MIMEImage(img_data, name=os.path.basename("piechart.png"))
     message.attach(image)
-
 
     # Create the plain-text and HTML version of your message
     html2 = """\
@@ -138,27 +129,24 @@ def email(id, email):
           {3} </span></h2>
        <hr>
        <h2 style ="color:black; text-align: left"> {6} </h2>
-       <h3 style ="color:#17B50E; text-align: left; padding-left: 40px;"> Positive: <span style="font-weight: normal">
-          Nick Gulson, Claudia Gabison </span> </h3>
-       <h3 style ="color:#E37100; text-align: left; padding-left: 40px;"> Negative: <span style="font-weight: normal">
-          Tony Bayvas, Jamie Lee </span> </h3>
+       <h3 style ="color:#17B50E; text-align: left; padding-left: 40px; font-weight: normal"> {7} </h3>
+       <h3 style ="color:#E37100; text-align: left; padding-left: 40px; font-weight: normal"> {8} </h3>
        <hr>
        <h2 style ="color:black; text-align: left"> Speaking Times: </h2>
        <h3 style ="color:black; text-align: left; font-weight: normal; padding-left: 40px;"> {4}</h3>
     
 
     </html>
-    """.format(meeting_id, meetingdate, meetingtime, stringnames, generalremark, remarkcolor, sentiment, positive, negative)
+    """.format(meeting_id, meetingdate, meetingtime, stringnames,
+               generalremark, remarkcolor, sentiment, positive, negative)
 
-
-
-    # # Turn these into plain/html MIMEText objects
-    #part1 = MIMEText(text, "plain")
+    # Turn these into plain/html MIMEText objects
+    # part1 = MIMEText(text, "plain")
     part2 = MIMEText(html, "html")
 
-    # # Add HTML/plain-text parts to MIMEMultipart message
-    # # The email client will try to render the last part first
-    #message.attach(part1)
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    # message.attach(part1)
     message.attach(part2)
 
     # Create secure connection with server and send email
@@ -170,4 +158,87 @@ def email(id, email):
         )
 
     print("sent")
+
+    report_text = """\
+    <!DOCTYPE html>
+    <html lang="en">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800' 
+     rel='stylesheet' type='text/css'>
+    <style>    
+    
+    #roundedbigbox {{
+        border-radius: 25px;
+        background: white;
+        padding: 30px;
+        width: 750px;
+        height: auto;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        text-align: center;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: auto;
+        margin-bottom: auto;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 40px;
+        padding-right: 40px;
+    
+    }}
+    h1{{
+        font-family: 'Helvetica';
+        font-size: 40px;
+    }}
+    
+    h2{{
+        font-family: 'Helvetica';
+        font-size: 20px;
+    }}
+    
+    h3{{
+        font-family: 'Helvetica';
+        font-size: 20px;
+    }}
+    
+    h4{{
+        font-family: 'Helvetica';
+        font-size: 16px;
+    }}
+    </style>
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>OKZoomer</title>
+    </head>
+    <body id=roundedbigbox style="padding-top: 20px">
+       <h1 style="text-align: center">Your Meeting Summary</h1>
+       <hr>
+       <h2 style ="text-align: left;">For meeting <span style="color:#A53FD2; font-weight: normal">{0}</span> on
+       <span style="color:#A53FD2; font-weight: normal">{1}</span> at <span style="color:#A53FD2;font-weight: normal">
+             {2}</span> </h2>
+       <h2 style="text-align: left;"> Attendees: <span style="color:black; font-weight: normal">
+          {3} </span></h2>
+       <hr>
+       <h2 style ="color:black; text-align: left"> {6} </h2> 
+       <h4 style ="color:#17B50E; text-align: left; padding-left: 40px; font-weight: normal"> {7} </h4>
+       <h4 style ="color:#E37100; text-align: left; padding-left: 40px; font-weight: normal"> {8} </h4>
+       <hr>
+       <h2 style ="color:black; text-align: left"> Speaking Times: </h2>
+       <div>
+       <h4 style="float: left;">
+       <img src="{{{{url_for('static', filename='piechart.png')}}}}" width="60%"></h4>
+       <h4 style ="color:black; text-align: left; font-weight: normal">
+             {4}</h4>
+       </div>
+    </body>
+    </html>
+    
+    """.format(meeting_id, meetingdate, meetingtime, stringnames,
+               generalremark, remarkcolor, sentiment, positive, negative)
+    report_file = open("templates/report.html", "w")
+    report_file.write(report_text)
+
     return
