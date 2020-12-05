@@ -1,6 +1,7 @@
 import smtplib, ssl
 import matplotlib.pyplot as plt
 import os
+import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
@@ -79,6 +80,10 @@ def email(id, email):
     message["From"] = sender_email
     message["To"] = receiver_email
 
+    # remove old pie charts
+    for filename in os.listdir('static'):
+        if filename.startswith('pie'):
+            os.remove('static/' + filename)
     # create pie chart
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
     plt.switch_backend('Agg')
@@ -93,11 +98,13 @@ def email(id, email):
     
     plt.title("Participant Speaking Times")
 
-    plt.savefig('static/piechart.png', bbox_inches='tight')
+    new_graph_name = "piechart" + str(time.time()) + ".png"  # eliminate cache problems
+
+    plt.savefig('static/{new_graph}'.format(new_graph=new_graph_name), bbox_inches='tight')
  
     # attaching image
-    img_data = open("static/piechart.png", 'rb').read()
-    image = MIMEImage(img_data, name=os.path.basename("piechart.png"))
+    img_data = open("static/{new_graph}".format(new_graph=new_graph_name), 'rb').read()
+    image = MIMEImage(img_data, name=os.path.basename(new_graph_name))
     message.attach(image)
 
     # Create the plain-text and HTML version of your message
@@ -229,7 +236,7 @@ def email(id, email):
        <h2 style ="color:black; text-align: left"> Speaking Times: </h2>
        <div>
        <h4 style="float: left;">
-       <img src="{{{{url_for('static', filename='piechart.png')}}}}" width="60%"></h4>
+       <img src="{{{{url_for('static', filename="{new_graph}")}}}}" width="60%"></h4>
        <h4 style ="color:black; text-align: left; font-weight: normal">
              {4}</h4>
        </div>
@@ -237,7 +244,7 @@ def email(id, email):
     </html>
     
     """.format(meeting_id, meetingdate, meetingtime, stringnames,
-               generalremark, remarkcolor, sentiment, positive, negative)
+               generalremark, remarkcolor, sentiment, positive, negative, new_graph=new_graph_name)
     report_file = open("templates/report.html", "w")
     report_file.write(report_text)
 
