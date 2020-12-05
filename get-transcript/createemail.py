@@ -24,8 +24,8 @@ def email(id, email):
     total_seconds = 0
     seconds = []
     names = []
-    positive = "Positive: "
-    negative = "Negative: "
+    positive = """<span style="font-weight:bold;">Positive: </span>"""
+    negative = """<span style="font-weight:bold;">Negative: </span>"""
     for b in breakdowns:
         total_seconds += b[1]
         names.append(b[0])
@@ -60,9 +60,11 @@ def email(id, email):
         if v < idealtime - 5 or v > idealtime + 5:
             remarkcolor = "#E37100"
             if v < idealtime - 5:
-                generalremark = "Next time, make sure everyone gets to contribute equally to the conversation! <br>" \
-                                "It looks like {quiet_person} did not get to talk as much. <br><br>" \
-                                " Please review the chart to see how you can improve in the next meeting.".format(quiet_person=names[i])
+                generalremark = """\
+                Next time, make sure everyone gets to contribute equally to the conversation! <br>
+                It looks like <span style="color:#E37100;">{quiet_person}</span> did not get to talk as much. <br><br>
+                Please review the chart to see how you can improve in the next meeting.                
+                """.format(quiet_person=names[i])
                 break
             else:
                 generalremark = "Next time, make sure everyone gets to contribute equally to the conversation! <br><br>" \
